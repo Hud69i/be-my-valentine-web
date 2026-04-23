@@ -22,8 +22,5 @@ Se você quer usar este projeto para a sua namorada ou pessoa especial, siga est
 - CSS3 (Animações, Keyframes e Flexbox)
 - JavaScript (Manipulação de DOM e lógica de aleatoriedade)
 
-## 📸 Preview
-*(Aqui você pode adicionar um print da tela do projeto ou um GIF dele funcionando)*
-
 ---
-Feito com ❤️ por [Seu Nome]
+Feito com ❤️ por Andrew Hudson 
