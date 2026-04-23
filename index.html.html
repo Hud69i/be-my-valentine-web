@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Gabriele ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #020617;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        /* Fundo Estelar */
+        .nebula {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(126, 34, 206, 0.15) 0%, transparent 50%);
+            animation: moveNebula 30s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes moveNebula {
+            0% { transform: translate(-25%, -25%) rotate(0deg); }
+            100% { transform: translate(-25%, -25%) rotate(360deg); }
+        }
+
+        /* Janela Retro */
+        .window {
+            position: absolute;
+            background: rgba(253, 242, 248, 0.98);
+            border: 3px solid #db2777;
+            box-shadow: 10px 10px 0px #9d174d;
+            width: 350px;
+            z-index: 1000;
+            border-radius: 4px;
+            display: none; 
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .active { display: block; } 
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .window-header { 
+            background: #db2777; 
+            padding: 8px; 
+            color: white; 
+            font-weight: bold; 
+            display: flex; 
+            justify-content: space-between; 
+            font-size: 12px; 
+        }
+        
+        .window-body { padding: 30px; color: #831843; font-size: 18px; font-weight: bold; text-align: center; line-height: 1.5; }
+
+        .buttons { display: flex; justify-content: center; gap: 15px; padding-bottom: 25px; }
+        
+        button { 
+            padding: 10px 25px; 
+            border: 2px solid #db2777; 
+            background: white; 
+            color: #db2777; 
+            font-weight: bold; 
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover { background: #db2777; color: white; }
+
+        /* Estrelas e Jardim */
+        .star { position: absolute; background: white; border-radius: 50%; animation: twinkle var(--duration) infinite ease-in-out; z-index: 0; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 1; transform: scale(1.3); } }
+        
+        .garden { position: absolute; bottom: 0; width: 100%; height: 100vh; display: flex; align-items: flex-end; z-index: 1; pointer-events: none; }
+        .flower { position: absolute; display: flex; flex-direction: column; align-items: center; transform-origin: bottom; animation: grow 2.5s ease-out forwards; }
+        .stem { width: 4px; background: linear-gradient(to top, #064e3b, #22c55e); border-radius: 2px; }
+        .tulip-petals { position: relative; width: 30px; height: 40px; }
+        .tulip-p { position: absolute; width: 20px; height: 35px; border-radius: 50% 50% 10% 10%; filter: drop-shadow(0 0 10px var(--glow)); }
+        @keyframes grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+    </style>
+</head>
+<body>
+    <div class="nebula"></div>
+
+    <div class="window active" id="win-pedido">
+        <div class="window-header"><span>System.exe</span><span>✕</span></div>
+        <div class="window-body">Gabriele, você aceita namorar comigo?</div>
+        <div class="buttons">
+            <button onclick="comecarSequencia()">Sim</button>
+            <button id="no-btn" onmouseover="foge()">Não</button>
+        </div>
+    </div>
+
+    <div class="window" id="msg1">
+        <div class="window-header"><span>Amor.exe</span><span>✕</span></div>
+        <div class="window-body">Sabia que você diria sim! ❤️<br>Agora, tenho umas coisinhas para te dizer...</div>
+        <div class="buttons"><button onclick="next('msg1', 'msg2')">Continuar</button></div>
+    </div>
+
+    <div class="window" id="msg2">
+        <div class="window-header"><span>Aviso do Coração</span><span>✕</span></div>
+        <div class="window-body">Desde que você chegou, tudo ficou mais colorido. Seu brilho mudou meu mundo.</div>
+        <div class="buttons"><button onclick="next('msg2', 'msg3')">Continuar</button></div>
+    </div>
+
+    <div class="window" id="msg3">
+        <div class="window-header"><span>Notificação</span><span>✕</span></div>
+        <div class="window-body">Queria que você soubesse o quão importante e especial você é para mim.</div>
+        <div class="buttons"><button onclick="next('msg3', 'msg4')">Continuar</button></div>
+    </div>
+
+    <div class="window" id="msg4">
+        <div class="window-header"><span>Minha Raridade</span><span>✕</span></div>
+        <div class="window-body">Você é a minha raridade. O meu achado mais precioso. Prometo te amar todos os dias! ❤️</div>
+        <div class="buttons"><button onclick="window.location.reload()">Sair</button></div>
+    </div>
+
+    <div class="garden" id="garden"></div>
+
+    <script>
+        // Começa a sequência após o SIM
+        function comecarSequencia() {
+            document.getElementById('win-pedido').classList.remove('active');
+            document.getElementById('msg1').classList.add('active');
+            initFlores(); // As flores começam a crescer quando ela aceita
+        }
+
+        // Troca as janelas da sequência
+        function next(atual, proximo) {
+            document.getElementById(atual).classList.remove('active');
+            document.getElementById(proximo).classList.add('active');
+        }
+
+        // Botão que foge
+        function foge() {
+            const btn = document.getElementById('no-btn');
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth - 100) + 50;
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight - 100) + 50;
+            btn.style.position = 'fixed';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        // Gera as flores (chamado apenas após o sim)
+        function initFlores() {
+            const garden = document.getElementById('garden');
+            for (let i = 0; i < 45; i++) {
+                const flower = document.createElement('div');
+                flower.className = 'flower';
+                flower.style.left = Math.random() * 95 + 'vw';
+                const colors = [{p:'#a855f7', g:'#7e22ce'}, {p:'#f472b6', g:'#db2777'}, {p:'#fb7185', g:'#e11d48'}];
+                const c = colors[Math.floor(Math.random()*colors.length)];
+                flower.innerHTML = `<div class="tulip-petals" style="--glow: ${c.g}"><div class="tulip-p" style="background:${c.p}; transform:rotate(-20deg); left:0;"></div><div class="tulip-p" style="background:${c.p}; transform:rotate(20deg); right:0;"></div><div class="tulip-p" style="background:${c.p}; width:15px; left:7px; top:2px; z-index:2;"></div></div><div class="stem" style="height:${Math.random()*120+60}px"></div>`;
+                garden.appendChild(flower);
+            }
+        }
+
+        // Estrelas iniciam sempre
+        function initEstrelas() {
+            for (let i = 0; i < 120; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = star.style.height = Math.random()*3+1+'px';
+                star.style.left = Math.random()*100+'vw';
+                star.style.top = Math.random()*100+'vh';
+                star.style.setProperty('--duration', Math.random()*3+1.5+'s');
+                document.body.appendChild(star);
+            }
+        }
+        
+        initEstrelas();
+    </script>
+</body>
+</html>
